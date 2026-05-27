@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Car Booking</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(to right, #e6f2ff, #ffffff);
+  }
+
+  header {
+    text-align: center;
+    padding: 20px;
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  .section {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  input, select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .search-btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .search-btn:hover {
+    background: #1d4ed8;
+  }
+
+  .results {
+    margin-top: 20px;
+  }
+
+  .card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .price {
+    font-weight: bold;
+    color: #2563eb;
+  }
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🚗 Car Booking Service</h1>
+  <p>Airport Pickup • Rent a Car</p>
+  
+</header>
+
+<div class="container">
+
+  <!-- ================= RENT A CAR ================= -->
+  <div class="section">
+    <h2>🚘 Rent a Car</h2>
+
+    <div class="row">
+      <input id="rent-pickup" placeholder="Pickup location (Airport/City)">
+      <input type="date" id="pickup-date" placeholder="pickup-date (pickup-date)">
+      <input type="time" id="pickup-time"  placeholder="pickup-time (pickup-time)">
+      <input type="date" id="drop-date"  placeholder="drop-date (drop-date)">
+      <input type="time" id="drop-time"  placeholder="drop-time (drop-time)">
+
+      <button class="search-btn" onclick="searchRent()">Search</button>
+    </div>
+
+    <div id="rentResults" class="results"></div>
+  </div>
+
+  <!-- ================= BOOK A RIDE ================= -->
+  <div class="section">
+    <h2>🚗 Book a Ride</h2>
+
+    <div class="row">
+      <input id="ride-pickup" placeholder="Pickup location">
+      <input id="ride-dropoff" placeholder="Drop-off location">
+    </div>
+
+    <div style="text-align: right; margin-top: 10px;">
+      <button class="search-btn" onclick="searchRide()">Search</button>
+    </div>
+
+    <div id="rideResults" class="results"></div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+
+  // ================= RENT SEARCH =================
+  function searchRent() {
+    const results = document.getElementById("rentResults");
+    results.innerHTML = "";
+
+    const cars = [
+      { model: "Toyota Corolla", price: 15000, type: "Economy" },
+      { model: "Honda Accord", price: 22000, type: "Standard" },
+      { model: "Lexus RX 350", price: 40000, type: "Luxury" }
+    ];
+
+    cars.forEach(car => {
+      const div = document.createElement("div");
+      div.className = "card";
+
+      div.innerHTML = `
+        <div>
+          <strong>${car.model}</strong><br>
+          Type: ${car.type}
+        </div>
+        <div>
+          <div class="price">₦${car.price}/day</div>
+          <button onclick="bookRent('${car.model}')">Select</button>
+        </div>
+      `;
+
+      results.appendChild(div);
+    });
+  }
+
+  // ================= RENT BOOK =================
+  function bookRent(model) {
+    alert("🚘 You selected " + model);
+  }
+
+  // ================= RIDE SEARCH =================
+  function searchRide() {
+    const results = document.getElementById("rideResults");
+    results.innerHTML = "";
+
+    const rides = [
+      { type: "Economy", price: 4000 },
+      { type: "Standard", price: 7000 },
+      { type: "Premium", price: 12000 }
+    ];
+
+    rides.forEach(ride => {
+      const div = document.createElement("div");
+      div.className = "card";
+
+      div.innerHTML = `
+        <div>
+          <strong>${ride.type} Ride</strong>
+        </div>
+        <div>
+          <div class="price">₦${ride.price}</div>
+          <button onclick="bookRide('${ride.type}')">Book</button>
+        </div>
+      `;
+
+      results.appendChild(div);
+    });
+  }
+
+  // ================= RIDE BOOK =================
+  function bookRide(type) {
+    alert("🚗 " + type + " ride booked!");
+  }
+
+})();
+</script>
+
+</body>
+</html>

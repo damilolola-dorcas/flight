@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyBook | Flight Booking</title>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+    <div class="nav-left">
+        <i class="fas fa-bars" id="hamburger"></i>
+        <span class="brand">SkyBook</span>
+    </div>
+
+    <div class="nav-right">
+        <i class="fas fa-headset nav-icon" onclick="openContact()"></i>
+        <i class="fas fa-user-circle nav-icon" onclick="openProfile()"></i>
+    </div>
+</header>
+
+<!-- Hamburger Menu -->
+<nav class="hamburger-menu" id="menu">
+    <a href="#" onclick="showSection('flight')"><i class="fas fa-plane"></i> Flights</a>
+    <a href="bus.html" onclick="showSection('bus/car rental')"><i class="fas fa-bus"></i> Bus/Car Rental</a>
+    <a href="#" onclick="showSection('hotel')"><i class="fas fa-hotel"></i> Hotels</a>
+    <a href="#" onclick="showSection('ticket')"><i class="fas fa-ticket-alt"></i> Tickets</a>
+</nav>
+
+<!-- ================= MAIN ================= -->
+<main class="container">
+
+    <!-- Trip Type 
+    <div class="trip-type">
+        <button class="active" data-trip="oneway">One Way</button>
+        <button data-trip="return">Return</button>
+        <button data-trip="multi">Multi-City</button>
+    </div>
+    -->
+
+    <!-- Booking Form -->
+    <form class="booking-form" id="bookingForm">
+
+        <!-- Travellers & Class -->
+        <div class="row">
+            <div class="field white">
+                <label>Travellers & Age</label>
+                <div class="counter-group">
+                    <span>Infant (0-2)</span><input type="number" min="0" value="0">
+                    <span>Child (3-9)</span><input type="number" min="0" value="0">
+                    <span>Teen (10-16)</span><input type="number" min="0" value="0">
+                    <span>Adult (17+)</span><input type="number" min="1" value="1">
+                </div>
+            </div>
+
+            <div class="field white">
+                <label>Class</label>
+                <select id="flightClass">
+                    <option>Economy</option>
+                    <option>Business</option>
+                    <option>First Class</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- From / To -->
+        <div class="column">
+            <input type="text" placeholder="From (state/country)" required>
+            <input type="text" placeholder="To (state/country)" required>
+        </div>
+
+        <!-- Dates -->
+        <div class="row">
+            <div class="field">
+                <label>Departure Date</label>
+                <input type="date" id="travelDate" required>
+            </div>
+
+            <!-- RETURN DATE (ADDED – hidden by default) -->
+            <div class="field" id="returnDateField" style="display:none;">
+                <label>Return Date</label>
+                <input type="date" id="returnDate">
+            </div>
+        </div>
+
+        <!-- Pets & Cage -->
+        <div class="row">
+            <div class="field white">
+                <label>Pets</label>
+                <select>
+                    <option>None</option>
+                    <option>Dog</option>
+                    <option>Cat</option>
+                </select>
+                <input type="number" min="0" placeholder="Number">
+            </div>
+
+            <div class="field">
+                <label>Cage Option</label>
+                <select>
+                    <option>Small Cage – ₦10,000</option>
+                    <option>Medium Cage – ₦20,000</option>
+                    <option>Large Cage – ₦30,000</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <button class="search-btn" type="submit">Search Flights</button>
+    </form>
+
+    <!-- ================= FLIGHT OPTIONS (ADDED) ================= -->
+    <section class="flight-options" id="flightOptions" style="display:none;">
+        <h3>Available Flights</h3>
+
+        <div class="flight-card">
+            <div>
+                <strong>SkyBook Air</strong><br>
+                Economy • Non-stop
+            </div>
+            <div>₦75,000</div>
+            <button>Select</button>
+        </div>
+
+        <div class="flight-card">
+            <div>
+                <strong>Cribbers Jet</strong><br>
+                Business • 1 Stop
+            </div>
+            <div>₦120,000</div>
+            <button>Select</button>
+        </div>
+
+        <div class="flight-card">
+            <div>
+                <strong>Atlantic Prime</strong><br>
+                First Class • Non-stop
+            </div>
+            <div>₦180,000</div>
+            <button>Select</button>
+        </div>
+    </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+    <div class="footer-links">
+        <a href="#" onclick="openAbout()">About</a>
+        <a href="#" onclick="openContact()">Contact Us</a>
+    </div>
+    <small>© 2025 SkyBook. All rights reserved.</small>
+</footer>
+
+<!-- ================= PROFILE MODAL ================= -->
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeProfile()">&times;</span>
+
+        <h3>Account</h3>
+
+        <div class="auth-tabs">
+            <button onclick="showLogin()">Login</button>
+            <button onclick="showSignup()">Sign Up</button>
+        </div>
+
+        <form id="loginForm">
+            <input type="email" placeholder="Email">
+            <input type="password" placeholder="Password">
+            <button>Login</button>
+        </form>
+
+        <form id="signupForm" style="display:none;">
+            <input type="text" placeholder="Full Name">
+            <input type="email" placeholder="Email">
+            <input type="password" placeholder="Password">
+            <button>Create Account</button>
+        </form>
+    </div>
+</div>
+
+<!-- ================= ABOUT MODAL ================= -->
+<div id="aboutModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeAbout()">&times;</span>
+        <h3>About Us</h3>
+        <p>
+            <strong>Cribbers Tech</strong> is a technology-focused training and innovation brand that helps young people and beginners build practical digital skills through hands-on learning, mentorship, and real-world projects.
+        </p>
+    </div>
+</div>
+
+<!-- ================= CONTACT MODAL ================= -->
+<div id="contactModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeContact()">&times;</span>
+        <h3>Contact Us</h3>
+        <p>
+            📧 contact@thecribbers.ng<br><br>
+            🌐 thecribbers.ng<br><br>
+            🔗 LinkedIn: The Cribbers Technology<br><br>
+            🐦 Twitter / Instagram: @thecribbers_ng
+        </p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
