@@ -1,209 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Car Booking</title>
-
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background: linear-gradient(to right, #e6f2ff, #ffffff);
-  }
-
-  header {
-    text-align: center;
-    padding: 20px;
-  }
-
-  h1 {
-    margin: 0;
-  }
-
-  .container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px;
-  }
-
-  .section {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-
-  .row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  input, select {
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    flex: 1;
-    min-width: 150px;
-  }
-
-  .search-btn {
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-
-  .search-btn:hover {
-    background: #1d4ed8;
-  }
-
-  .results {
-    margin-top: 20px;
-  }
-
-  .card {
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .price {
-    font-weight: bold;
-    color: #2563eb;
-  }
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SkyBook | Car & Bus Rental</title>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="bus.css">
 </head>
-
 <body>
 
-<header>
-  <h1>🚗 Car Booking Service</h1>
-  <p>Airport Pickup • Rent a Car</p>
-  
+<!-- ================= HERO SECTION ================= -->
+<div class="hero-bg">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>Your Journey on the Road</h1>
+        <p>Luxury cars • Comfortable buses • Airport transfers</p>
+    </div>
+</div>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+    <div class="nav-left">
+        <i class="fas fa-bars" id="hamburger"></i>
+        <span class="brand">✈️ SkyBook</span>
+    </div>
+
+    <div class="nav-right">
+        <i class="fas fa-headset nav-icon" onclick="openContact()"></i>
+        <i class="fas fa-user-circle nav-icon" onclick="openProfile()"></i>
+    </div>
 </header>
 
+<!-- Hamburger Menu -->
+<nav class="hamburger-menu" id="menu">
+    <a href="index.html"><i class="fas fa-plane-departure"></i> Flights</a>
+    <a href="bus.html"><i class="fas fa-car"></i> Car Rental</a>
+    <a href="#" onclick="showHotels(); return false;"><i class="fas fa-hotel"></i> Hotels</a>
+    <a href="#" onclick="showBookings(); return false;"><i class="fas fa-ticket-alt"></i> My Bookings</a>
+    <a href="#" onclick="openContact(); return false;"><i class="fas fa-headset"></i> Support</a>
+</nav>
+
+<!-- ================= MAIN CONTAINER ================= -->
 <div class="container">
 
-  <!-- ================= RENT A CAR ================= -->
-  <div class="section">
-    <h2>🚘 Rent a Car</h2>
+    <!-- ================= RENT A CAR SECTION ================= -->
+    <div class="service-card">
+        <div class="card-header">
+            <i class="fas fa-car"></i>
+            <h2>Rent a Car</h2>
+            <p>Choose from our premium fleet of vehicles</p>
+        </div>
 
-    <div class="row">
-      <input id="rent-pickup" placeholder="Pickup location (Airport/City)">
-      <input type="date" id="pickup-date" placeholder="pickup-date (pickup-date)">
-      <input type="time" id="pickup-time"  placeholder="pickup-time (pickup-time)">
-      <input type="date" id="drop-date"  placeholder="drop-date (drop-date)">
-      <input type="time" id="drop-time"  placeholder="drop-time (drop-time)">
+        <div class="form-grid">
+            <div class="field">
+                <label><i class="fas fa-map-marker-alt"></i> Pickup Location</label>
+                <input type="text" id="rentPickup" placeholder="City or Airport" value="Lagos Airport">
+            </div>
+            <div class="field">
+                <label><i class="fas fa-calendar-alt"></i> Pickup Date</label>
+                <input type="date" id="rentPickupDate">
+            </div>
+            <div class="field">
+                <label><i class="fas fa-clock"></i> Pickup Time</label>
+                <input type="time" id="rentPickupTime" value="10:00">
+            </div>
+            <div class="field">
+                <label><i class="fas fa-calendar-check"></i> Return Date</label>
+                <input type="date" id="rentReturnDate">
+            </div>
+            <div class="field">
+                <label><i class="fas fa-clock"></i> Return Time</label>
+                <input type="time" id="rentReturnTime" value="10:00">
+            </div>
+        </div>
 
-      <button class="search-btn" onclick="searchRent()">Search</button>
+        <button class="search-btn" onclick="searchRentalCars()">
+            <i class="fas fa-search"></i> Search Available Cars
+        </button>
+
+        <div id="rentResults" class="results"></div>
     </div>
 
-    <div id="rentResults" class="results"></div>
-  </div>
+    <!-- ================= BOOK A RIDE SECTION ================= -->
+    <div class="service-card">
+        <div class="card-header">
+            <i class="fas fa-taxi"></i>
+            <h2>Book a Ride</h2>
+            <p>Instant ride booking to anywhere in the city</p>
+        </div>
 
-  <!-- ================= BOOK A RIDE ================= -->
-  <div class="section">
-    <h2>🚗 Book a Ride</h2>
+        <div class="form-grid">
+            <div class="field">
+                <label><i class="fas fa-circle"></i> Pickup Location</label>
+                <input type="text" id="ridePickup" placeholder="Your current location">
+            </div>
+            <div class="field">
+                <label><i class="fas fa-flag-checkered"></i> Drop-off Location</label>
+                <input type="text" id="rideDropoff" placeholder="Your destination">
+            </div>
+        </div>
 
-    <div class="row">
-      <input id="ride-pickup" placeholder="Pickup location">
-      <input id="ride-dropoff" placeholder="Drop-off location">
+        <button class="search-btn" onclick="searchRides()">
+            <i class="fas fa-search"></i> Find Rides
+        </button>
+
+        <div id="rideResults" class="results"></div>
     </div>
 
-    <div style="text-align: right; margin-top: 10px;">
-      <button class="search-btn" onclick="searchRide()">Search</button>
+    <!-- ================= WHY CHOOSE US ================= -->
+    <div class="features-section">
+        <h3>Why Choose SkyBook Rides?</h3>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Safe & Secure</h4>
+                <p>All drivers are vetted and insured</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-dollar-sign"></i>
+                <h4>Best Prices</h4>
+                <p>No surge pricing, transparent rates</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-clock"></i>
+                <h4>24/7 Support</h4>
+                <p>Round-the-clock customer service</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-star"></i>
+                <h4>Premium Fleet</h4>
+                <p>Luxury cars and comfortable buses</p>
+            </div>
+        </div>
     </div>
-
-    <div id="rideResults" class="results"></div>
-  </div>
 
 </div>
 
-<script>
-(function(){
-
-  // ================= RENT SEARCH =================
-  function searchRent() {
-    const results = document.getElementById("rentResults");
-    results.innerHTML = "";
-
-    const cars = [
-      { model: "Toyota Corolla", price: 15000, type: "Economy" },
-      { model: "Honda Accord", price: 22000, type: "Standard" },
-      { model: "Lexus RX 350", price: 40000, type: "Luxury" }
-    ];
-
-    cars.forEach(car => {
-      const div = document.createElement("div");
-      div.className = "card";
-
-      div.innerHTML = `
-        <div>
-          <strong>${car.model}</strong><br>
-          Type: ${car.type}
+<!-- ================= FOOTER ================= -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h4>✈️ SkyBook</h4>
+            <p>Your trusted travel partner since 2025</p>
+            <p style="font-size: 0.8rem; margin-top: 0.5rem;">Designed by Damilola</p>
         </div>
-        <div>
-          <div class="price">₦${car.price}/day</div>
-          <button onclick="bookRent('${car.model}')">Select</button>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <a href="#" onclick="openAbout()">About Us</a>
+            <a href="#" onclick="openContact()">Contact Us</a>
+            <a href="#" onclick="showBookings()">My Bookings</a>
         </div>
-      `;
-
-      results.appendChild(div);
-    });
-  }
-
-  // ================= RENT BOOK =================
-  function bookRent(model) {
-    alert("🚘 You selected " + model);
-  }
-
-  // ================= RIDE SEARCH =================
-  function searchRide() {
-    const results = document.getElementById("rideResults");
-    results.innerHTML = "";
-
-    const rides = [
-      { type: "Economy", price: 4000 },
-      { type: "Standard", price: 7000 },
-      { type: "Premium", price: 12000 }
-    ];
-
-    rides.forEach(ride => {
-      const div = document.createElement("div");
-      div.className = "card";
-
-      div.innerHTML = `
-        <div>
-          <strong>${ride.type} Ride</strong>
+        <div class="footer-section">
+            <h4>Connect With Us</h4>
+            <div class="social-icons">
+                <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            </div>
         </div>
-        <div>
-          <div class="price">₦${ride.price}</div>
-          <button onclick="bookRide('${ride.type}')">Book</button>
+    </div>
+    <small>© 2025 SkyBook. All rights reserved.</small>
+</footer>
+
+<!-- ================= MODALS ================= -->
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeProfile()">&times;</span>
+        <h3><i class="fas fa-user-circle"></i> Account</h3>
+        <div class="auth-tabs">
+            <button class="auth-tab active" onclick="switchAuth('login')">Login</button>
+            <button class="auth-tab" onclick="switchAuth('signup')">Sign Up</button>
         </div>
-      `;
+        <form id="loginForm" class="auth-form active">
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Email address" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="auth-submit">Login</button>
+            <p class="auth-footer">Forgot password? <a href="#">Reset here</a></p>
+        </form>
+        <form id="signupForm" class="auth-form">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Full name" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Email address" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-check-circle"></i>
+                <input type="password" placeholder="Confirm password" required>
+            </div>
+            <button type="submit" class="auth-submit">Create Account</button>
+            <p class="auth-footer">By signing up, you agree to our <a href="#">Terms</a></p>
+        </form>
+    </div>
+</div>
 
-      results.appendChild(div);
-    });
-  }
+<div id="aboutModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeAbout()">&times;</span>
+        <h3>About SkyBook Rides</h3>
+        <p><strong>SkyBook</strong> offers premium car rental and ride-hailing services across Nigeria. Our fleet includes luxury sedans, SUVs, and comfortable buses for group travel.</p>
+        <br>
+        <p>Built with ❤️ by <strong>Damilola</strong></p>
+    </div>
+</div>
 
-  // ================= RIDE BOOK =================
-  function bookRide(type) {
-    alert("🚗 " + type + " ride booked!");
-  }
+<div id="contactModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeContact()">&times;</span>
+        <h3>Contact Us</h3>
+        <div class="contact-info">
+            <p><i class="fas fa-envelope"></i> rides@skybook.com</p>
+            <p><i class="fas fa-phone"></i> +234 (0) 123 456 7890</p>
+            <p><i class="fab fa-whatsapp"></i> +234 (0) 800 123 4567</p>
+            <p><i class="fas fa-clock"></i> 24/7 Customer Support</p>
+        </div>
+    </div>
+</div>
 
-})();
-</script>
-
+<!-- External JavaScript -->
+<script src="bus.js"></script>
 </body>
 </html>
