@@ -2,22 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SkyBook | Flight Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <title>SkyBook | Book Flights & Travel</title>
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
+<!-- ================= BACKGROUND HERO SECTION ================= -->
+<div class="hero-bg">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>Your Journey Begins Here</h1>
+        <p>Discover amazing flights to destinations around the world</p>
+        <div class="hero-stats">
+            <div><i class="fas fa-globe"></i> 150+ Destinations</div>
+            <div><i class="fas fa-plane"></i> 500+ Daily Flights</div>
+            <div><i class="fas fa-headset"></i> 24/7 Support</div>
+        </div>
+    </div>
+</div>
+
 <!-- ================= NAVBAR ================= -->
 <header class="navbar">
     <div class="nav-left">
         <i class="fas fa-bars" id="hamburger"></i>
-        <span class="brand">SkyBook</span>
+        <span class="brand">✈️ SkyBook</span>
     </div>
 
     <div class="nav-right">
@@ -28,186 +45,282 @@
 
 <!-- Hamburger Menu -->
 <nav class="hamburger-menu" id="menu">
-    <a href="#" onclick="showSection('flight')"><i class="fas fa-plane"></i> Flights</a>
-    <a href="bus.html" onclick="showSection('bus/car rental')"><i class="fas fa-bus"></i> Bus/Car Rental</a>
-    <a href="#" onclick="showSection('hotel')"><i class="fas fa-hotel"></i> Hotels</a>
-    <a href="#" onclick="showSection('ticket')"><i class="fas fa-ticket-alt"></i> Tickets</a>
+    <a href="#" onclick="scrollToFlights()"><i class="fas fa-plane-departure"></i> Flights</a>
+    <a href="bus.html"><i class="fas fa-car"></i> Car Rental</a>
+    <a href="#" onclick="showHotels()"><i class="fas fa-hotel"></i> Hotels</a>
+    <a href="#" onclick="showTickets()"><i class="fas fa-ticket-alt"></i> My Bookings</a>
 </nav>
 
 <!-- ================= MAIN ================= -->
 <main class="container">
 
-    <!-- Trip Type 
-    <div class="trip-type">
-        <button class="active" data-trip="oneway">One Way</button>
-        <button data-trip="return">Return</button>
-        <button data-trip="multi">Multi-City</button>
-    </div>
-    -->
-
     <!-- Booking Form -->
-    <form class="booking-form" id="bookingForm">
+    <div class="booking-card" id="bookingSection">
+        <div class="card-header">
+            <i class="fas fa-plane"></i>
+            <h2>Book Your Flight</h2>
+            <p>Best prices guaranteed • Free cancellation • Secure booking</p>
+        </div>
 
-        <!-- Travellers & Class -->
-        <div class="row">
-            <div class="field white">
-                <label>Travellers & Age</label>
-                <div class="counter-group">
-                    <span>Infant (0-2)</span><input type="number" min="0" value="0">
-                    <span>Child (3-9)</span><input type="number" min="0" value="0">
-                    <span>Teen (10-16)</span><input type="number" min="0" value="0">
-                    <span>Adult (17+)</span><input type="number" min="1" value="1">
+        <form class="booking-form" id="bookingForm">
+            <!-- Trip Type Toggle -->
+            <div class="trip-type" id="tripType">
+                <button type="button" class="trip-btn active" data-trip="oneway">
+                    <i class="fas fa-arrow-right"></i> One Way
+                </button>
+                <button type="button" class="trip-btn" data-trip="round">
+                    <i class="fas fa-exchange-alt"></i> Round Trip
+                </button>
+            </div>
+
+            <div class="form-grid">
+                <!-- From / To -->
+                <div class="field">
+                    <label><i class="fas fa-plane-departure"></i> From</label>
+                    <input type="text" id="fromLocation" placeholder="City or Airport" required>
+                </div>
+
+                <div class="field">
+                    <label><i class="fas fa-plane-arrival"></i> To</label>
+                    <input type="text" id="toLocation" placeholder="City or Airport" required>
+                </div>
+
+                <!-- Departure Date -->
+                <div class="field">
+                    <label><i class="fas fa-calendar-alt"></i> Departure</label>
+                    <input type="date" id="travelDate" required>
+                </div>
+
+                <!-- Return Date -->
+                <div class="field" id="returnDateField" style="display:none;">
+                    <label><i class="fas fa-calendar-check"></i> Return</label>
+                    <input type="date" id="returnDate">
+                </div>
+
+                <!-- Travellers -->
+                <div class="field">
+                    <label><i class="fas fa-users"></i> Travellers</label>
+                    <div class="traveler-selector" onclick="toggleTravelerModal()">
+                        <span id="travelerDisplay">1 Adult</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <!-- Class -->
+                <div class="field">
+                    <label><i class="fas fa-couch"></i> Class</label>
+                    <select id="flightClass">
+                        <option value="economy">Economy Class</option>
+                        <option value="business">Business Class</option>
+                        <option value="first">First Class</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="field white">
-                <label>Class</label>
-                <select id="flightClass">
-                    <option>Economy</option>
-                    <option>Business</option>
-                    <option>First Class</option>
-                </select>
+            <!-- Search Button -->
+            <button class="search-btn" type="submit">
+                <i class="fas fa-search"></i> Search Flights
+            </button>
+        </form>
+    </div>
+
+    <!-- Traveler Modal -->
+    <div id="travelerModal" class="modal-small">
+        <div class="modal-small-content">
+            <h3>Select Travellers</h3>
+            <div class="traveler-item">
+                <span>Adults (17+)</span>
+                <div class="traveler-controls">
+                    <button onclick="changeTraveler('adult', -1)">-</button>
+                    <span id="adultCount">1</span>
+                    <button onclick="changeTraveler('adult', 1)">+</button>
+                </div>
             </div>
+            <div class="traveler-item">
+                <span>Children (3-16)</span>
+                <div class="traveler-controls">
+                    <button onclick="changeTraveler('child', -1)">-</button>
+                    <span id="childCount">0</span>
+                    <button onclick="changeTraveler('child', 1)">+</button>
+                </div>
+            </div>
+            <div class="traveler-item">
+                <span>Infants (0-2)</span>
+                <div class="traveler-controls">
+                    <button onclick="changeTraveler('infant', -1)">-</button>
+                    <span id="infantCount">0</span>
+                    <button onclick="changeTraveler('infant', 1)">+</button>
+                </div>
+            </div>
+            <button class="done-btn" onclick="closeTravelerModal()">Done</button>
         </div>
+    </div>
 
-        <!-- From / To -->
-        <div class="column">
-            <input type="text" placeholder="From (state/country)" required>
-            <input type="text" placeholder="To (state/country)" required>
-        </div>
-
-        <!-- Dates -->
-        <div class="row">
-            <div class="field">
-                <label>Departure Date</label>
-                <input type="date" id="travelDate" required>
-            </div>
-
-            <!-- RETURN DATE (ADDED – hidden by default) -->
-            <div class="field" id="returnDateField" style="display:none;">
-                <label>Return Date</label>
-                <input type="date" id="returnDate">
-            </div>
-        </div>
-
-        <!-- Pets & Cage -->
-        <div class="row">
-            <div class="field white">
-                <label>Pets</label>
-                <select>
-                    <option>None</option>
-                    <option>Dog</option>
-                    <option>Cat</option>
-                </select>
-                <input type="number" min="0" placeholder="Number">
-            </div>
-
-            <div class="field">
-                <label>Cage Option</label>
-                <select>
-                    <option>Small Cage – ₦10,000</option>
-                    <option>Medium Cage – ₦20,000</option>
-                    <option>Large Cage – ₦30,000</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Search -->
-        <button class="search-btn" type="submit">Search Flights</button>
-    </form>
-
-    <!-- ================= FLIGHT OPTIONS (ADDED) ================= -->
+    <!-- Flight Results -->
     <section class="flight-options" id="flightOptions" style="display:none;">
-        <h3>Available Flights</h3>
-
-        <div class="flight-card">
-            <div>
-                <strong>SkyBook Air</strong><br>
-                Economy • Non-stop
-            </div>
-            <div>₦75,000</div>
-            <button>Select</button>
-        </div>
-
-        <div class="flight-card">
-            <div>
-                <strong>Cribbers Jet</strong><br>
-                Business • 1 Stop
-            </div>
-            <div>₦120,000</div>
-            <button>Select</button>
-        </div>
-
-        <div class="flight-card">
-            <div>
-                <strong>Atlantic Prime</strong><br>
-                First Class • Non-stop
-            </div>
-            <div>₦180,000</div>
-            <button>Select</button>
-        </div>
+        <h3><i class="fas fa-search"></i> Available Flights</h3>
+        <div id="flightResultsList"></div>
     </section>
+
+    <!-- Why Choose Us -->
+    <div class="features-section">
+        <h3>Why Travel With SkyBook?</h3>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-tag"></i>
+                <h4>Best Price Guarantee</h4>
+                <p>We match any price you find elsewhere</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-clock"></i>
+                <h4>24/7 Customer Support</h4>
+                <p>Always here to help you</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Secure Booking</h4>
+                <p>Your data is always protected</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-gem"></i>
+                <h4>Exclusive Deals</h4>
+                <p>Special offers for members</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popular Destinations -->
+    <div class="destinations-section">
+        <h3><i class="fas fa-star"></i> Popular Destinations</h3>
+        <div class="destinations-grid">
+            <div class="dest-card" onclick="selectDestination('Lagos', 'Abuja')">
+                <div class="dest-image" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrr2_CoEsH2mJ5HxlSkcmksSvWOQhcAQVi8g&s')"></div>
+                <div class="dest-info">
+                    <h4>Lagos → Abuja</h4>
+                    <p>From ₦75,000</p>
+                    <span class="popular-tag">Popular Route</span>
+                </div>
+            </div>
+            <div class="dest-card" onclick="selectDestination('Lagos', 'London')">
+                <div class="dest-image" style="background-image: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&h=250&fit=crop')"></div>
+                <div class="dest-info">
+                    <h4>Lagos → London</h4>
+                    <p>From ₦850,000</p>
+                    <span class="popular-tag">International</span>
+                </div>
+            </div>
+            <div class="dest-card" onclick="selectDestination('Lagos', 'Dubai')">
+                <div class="dest-image" style="background-image: url('data:image/jpeg;base64,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')"></div>
+                <div class="dest-info">
+                    <h4>Lagos → Dubai</h4>
+                    <p>From ₦650,000</p>
+                    <span class="popular-tag">Trending</span>
+                </div>
+            </div>
+            <div class="dest-card" onclick="selectDestination('Lagos', 'New York')">
+                <div class="dest-image" style="background-image: url('https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400&h=250&fit=crop')"></div>
+                <div class="dest-info">
+                    <h4>Lagos → New York</h4>
+                    <p>From ₦1,200,000</p>
+                    <span class="popular-tag">Popular</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </main>
 
 <!-- ================= FOOTER ================= -->
 <footer>
-    <div class="footer-links">
-        <a href="#" onclick="openAbout()">About</a>
-        <a href="#" onclick="openContact()">Contact Us</a>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h4>✈️ SkyBook</h4>
+            <p>Your trusted travel partner since 2025</p>
+            <p style="font-size: 0.8rem; margin-top: 0.5rem;">Designed by Damilola</p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <a href="#" onclick="openAbout()">About Us</a>
+            <a href="#" onclick="openContact()">Contact Us</a>
+            <a href="#" onclick="showTickets()">My Bookings</a>
+        </div>
+        <div class="footer-section">
+            <h4>Connect With Us</h4>
+            <div class="social-icons">
+                <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            </div>
+        </div>
     </div>
     <small>© 2025 SkyBook. All rights reserved.</small>
 </footer>
 
-<!-- ================= PROFILE MODAL ================= -->
+<!-- Modals -->
 <div id="profileModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeProfile()">&times;</span>
-
-        <h3>Account</h3>
-
+        <h3><i class="fas fa-user-circle"></i> Account</h3>
         <div class="auth-tabs">
-            <button onclick="showLogin()">Login</button>
-            <button onclick="showSignup()">Sign Up</button>
+            <button class="auth-tab active" onclick="switchAuth('login')">Login</button>
+            <button class="auth-tab" onclick="switchAuth('signup')">Sign Up</button>
         </div>
-
-        <form id="loginForm">
-            <input type="email" placeholder="Email">
-            <input type="password" placeholder="Password">
-            <button>Login</button>
+        <form id="loginForm" class="auth-form active">
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Email address" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="auth-submit">Login</button>
+            <p class="auth-footer">Forgot password? <a href="#">Reset here</a></p>
         </form>
-
-        <form id="signupForm" style="display:none;">
-            <input type="text" placeholder="Full Name">
-            <input type="email" placeholder="Email">
-            <input type="password" placeholder="Password">
-            <button>Create Account</button>
+        <form id="signupForm" class="auth-form">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Full name" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Email address" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-check-circle"></i>
+                <input type="password" placeholder="Confirm password" required>
+            </div>
+            <button type="submit" class="auth-submit">Create Account</button>
+            <p class="auth-footer">By signing up, you agree to our <a href="#">Terms</a></p>
         </form>
     </div>
 </div>
 
-<!-- ================= ABOUT MODAL ================= -->
 <div id="aboutModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeAbout()">&times;</span>
-        <h3>About Us</h3>
-        <p>
-            <strong>Cribbers Tech</strong> is a technology-focused training and innovation brand that helps young people and beginners build practical digital skills through hands-on learning, mentorship, and real-world projects.
-        </p>
+        <h3>About SkyBook</h3>
+        <p><strong>SkyBook</strong> is a modern flight booking platform designed to make travel accessible, affordable, and enjoyable for everyone.</p>
+        <br>
+        <p>Built with ❤️ by <strong>Damilola</strong> - a passionate developer dedicated to creating seamless digital experiences.</p>
     </div>
 </div>
 
-<!-- ================= CONTACT MODAL ================= -->
 <div id="contactModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeContact()">&times;</span>
         <h3>Contact Us</h3>
-        <p>
-            📧 contact@thecribbers.ng<br><br>
-            🌐 thecribbers.ng<br><br>
-            🔗 LinkedIn: The Cribbers Technology<br><br>
-            🐦 Twitter / Instagram: @thecribbers_ng
-        </p>
+        <div class="contact-info">
+            <p><i class="fas fa-envelope"></i> hello@skybook.com</p>
+            <p><i class="fas fa-phone"></i> +234 (0) 123 456 7890</p>
+            <p><i class="fab fa-whatsapp"></i> +234 (0) 800 123 4567</p>
+            <p><i class="fas fa-clock"></i> Monday - Sunday: 24/7</p>
+        </div>
     </div>
 </div>
 
